@@ -1,0 +1,102 @@
+> use onlineshoppingportal
+switched to db onlineshoppingportal
+> db.Customer
+onlineshoppingportal.Customer
+> db.Address
+onlineshoppingportal.Address
+> db.Orders
+onlineshoppingportal.Orders
+> db.Vendors
+onlineshoppingportal.Vendors
+> db.Products
+onlineshoppingportal.Product
+
+> db.Customer.insertMany([{customername:"Ram", 
+customeremail:"ram@gmail.com", customermobno:"9384858", customerwallet:"56", 
+customeraddress:{customercity:"Hyderabad",customerpincode:"600012"}},
+{customername:"Jothi", customeremail:"jothi@gmail.com", 
+customermobno:"7839256", customerwallet:"78", 
+customeraddress:{customercity:"Delhi",customerpincode:"110008"}}]);
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("632d5db01f7127adec8a794b"),
+                ObjectId("632d5db01f7127adec8a794c")
+        ]
+}
+
+ db.Orders.insertMany([{orderstatus:"Delivered", orderamount:"500"},
+... {orderstatus: "pending", orderamount:750},{orderstatus: "pending", orderamount: 250}])
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("632d5e501f7127adec8a794d"),
+                ObjectId("632d5e501f7127adec8a794e"),
+                ObjectId("632d5e501f7127adec8a794f")
+        ]
+}
+> db.Vendors.insertOne({vendorname: "Ramia", vendoremail:"ramia@gmail.com",
+ vendormobno:"746392",vendorwallet:"890"})
+
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d5ec91f7127adec8a7950")
+}
+
+> db.Products.insertMany([{productname: "shirt", productcategory: "clothes", productprice:"50"},
+{productname: "pants", productcategory: "clothes", productprice:"150"},
+{productname: "ring", productcategory: "jewelery", productprice:"250"}
+... ])
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("632d5f841f7127adec8a7951"),
+                ObjectId("632d5f841f7127adec8a7952"),
+                ObjectId("632d5f841f7127adec8a7953")
+        ]
+}
+
+> db.Customer.find({"customeraddress.customercity":"Delhi"}).pretty()
+
+{
+        "_id" : ObjectId("632d5db01f7127adec8a794c"),
+        "customername" : "Jothi",
+        "customeremail" : "jothi@gmail.com",
+        "customermobno" : "7839256",
+        "customerwallet" : "78",
+        "customeraddress" : {
+                "customercity" : "Delhi",
+                "customerpincode" : "110008"
+        }
+}
+
+> db.Products.find({},{_id:0, productname:1, productprice:1}).pretty()
+
+{ "productname" : "shirt", "productprice" : "50" }
+{ "productname" : "pants", "productprice" : "150" }
+{ "productname" : "ring", "productprice" : "250" }
+
+> db.Orders.find({"orderstatus":"pending"}).pretty()
+
+{
+        "_id" : ObjectId("632d5e501f7127adec8a794e"),
+        "orderstatus" : "pending",
+        "orderamount" : 750
+}
+{
+        "_id" : ObjectId("632d5e501f7127adec8a794f"),
+        "orderstatus" : "pending",
+        "orderamount" : 250
+}
+
+> db.Customer.find({"customeraddress.customerpincode":"600012"},{_id:0, customeraddress:1}).pretty()
+
+{
+        "customeraddress" : {
+                "customercity" : "Hyderabad",
+                "customerpincode" : "600012"
+        }
+}
